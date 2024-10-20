@@ -1,3 +1,15 @@
+FROM mcr.microsoft.com/devcontainers/go:1-1.23-bookworm AS builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN go mod download
+
+RUN CGO_ENABLED=1 GOOS=linux go build -o main .
+
+COPY --from=builder /app/ .
+
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
 import { StoreProvider } from "./utils/storeContext.tsx";
 import { Toaster } from "react-hot-toast";
 

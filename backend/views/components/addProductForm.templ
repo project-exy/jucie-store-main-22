@@ -1,0 +1,45 @@
+package components
+
+templ AddProductForm() {
+	<div class=" flex-col flex justify-center items-center m-auto gap-1">
+		<form
+			id="productForm"
+			action="/products"
+			method="POST"
+			enctype="multipart/form-data"
+			class="flex flex-col justify-center items-center gap-2 border border-black"
+		>
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" rows="2" required/>
+			<label for="description">Description:</label>
+			<textarea id="description" name="description" rows="4" cols="50" required></textarea>
+			<label for="image">Image:</label>
+			<input type="file" id="image" name="image" accept="image/*" required/>
+			<input type="submit" value="Submit Product" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"/>
+		</form>
+	</div>
+	<script type="text/javascript">
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = new FormData(this);
+        
+        fetch('/products', {
+            method: 'POST',
+            body: JSON.
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Product added successfully');
+                window.location.href = '/panel';
+            } else {
+                throw new Error('Product submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error adding product');
+        });
+    });
+</script>
+}

@@ -1,0 +1,11 @@
+package views
+
+import "github.com/pecet3/my-api/views/components"
+
+templ LoginPage() {
+	@LayoutPanel() {
+		<div class="w-full m-auto justify-center col-span-2">
+			@components.LoginForm()
+		</div>
+	}
+}

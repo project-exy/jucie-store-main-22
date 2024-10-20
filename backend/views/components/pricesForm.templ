@@ -1,0 +1,28 @@
+package components
+
+import (
+	"github.com/pecet3/my-api/data"
+	"strconv"
+)
+
+templ PricesForm(p []data.Price) {
+	<div class="flex flex-col items-center">
+		for _, pr :=range p {
+			<form method="POST" action={ templ.SafeURL("/prices/" + strconv.Itoa(pr.Id)) } class=" border border-black p-1">
+				<div class="">
+					<input type="hidden" name="_method" value="PUT"/>
+					<label for="price">{ strconv.Itoa(pr.Capacity) } ML</label>
+				</div>
+				<input
+					type="number"
+					step="0.01"
+					id="name"
+					name="price"
+					value={ strconv.FormatFloat(pr.Price, 'f', 2, 64) }
+					required
+				/>
+				<input type="submit" value="Change" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"/>
+			</form>
+		}
+	</div>
+}

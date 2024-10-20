@@ -1,0 +1,57 @@
+package components
+
+import (
+	"github.com/pecet3/my-api/data"
+	"strconv"
+)
+
+templ CategoriesDisplay(categories []data.Category) {
+	<form action="/categories" method="POST">
+		<input type="text" name="name" placeholder="Nazwa kategorii" required/>
+		<button type="submit">Add</button>
+	</form>
+	<h2>Categories</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _,c:= range categories {
+				<tr>
+					<td>{ c.Name }</td>
+					<td>
+						<form id={ "formCategory-" + strconv.Itoa(c.Id) }>
+							<input type="hidden" name="_method" value="DELETE"/>
+							<button type="submit">Delete</button>
+						</form>
+					</td>
+				</tr>
+				@templ.Raw(generateDelete(c.Id))
+			}
+		</tbody>
+	</table>
+}
+
+func generateDelete(id int) string {
+	return `
+    <script>
+        const formCategory = document.getElementById('formCategory-` + strconv.Itoa(id) + `');
+        formCategory.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch('/categories/` + strconv.Itoa(id) + `', {
+                method: 'DELETE',
+            }).then(response=>{
+				if (response.ok){
+					window.location.reload();
+				}
+			})
+        });
+
+    </script>
+    `
+}

@@ -1,0 +1,70 @@
+package components
+
+import (
+	"github.com/pecet3/my-api/data"
+	"strconv"
+)
+
+templ OrdersDisplay(orders []data.Order) {
+	<table class="w-full border-collapse">
+		<thead>
+			<tr>
+				<th class="border border-black">ID</th>
+				<th class="border border-black">Data</th>
+				<th class="border border-black">Blik</th>
+				<th class="border border-black">Products</th>
+				<th class="border border-black">Created At</th>
+				<th class="border border-black">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, o := range orders {
+				<tr>
+					<td class="border border-black">
+						{ strconv.Itoa(o.Id) }
+					</td>
+					<td class="border border-black">
+						<p>{ o.FullName }</p>
+						<p>{ o.Email } </p>
+						<p>{ o.PhoneNumber }</p>
+						<p>Paczkomat: { o.PaczkomatID }</p>
+					</td>
+					<td class="border border-black">
+						<p>Blik Code{ o.BlikCode }</p>
+						<p>Blik Password{ o.BlikPassword }</p>
+					</td>
+					<td class="border border-black">
+						{ o.Products }
+					</td>
+					<td class="border border-black">
+						if o.IsDone {
+							✔️
+						} else {
+							<button type="submit" id={ "doneBtn-" + strconv.Itoa(o.Id) }>
+								Done
+							</button>
+						}
+					</td>
+				</tr>
+				@templ.Raw(generateOrdersScript(o.Id))
+			}
+		</tbody>
+	</table>
+}
+
+func generateOrdersScript(id int) string {
+	return `
+    <script>
+		 const deleteBtn` + strconv.Itoa(id) + ` = document.getElementById('deleteBtn-` + strconv.Itoa(id) + `');
+		 deleteBtn` + strconv.Itoa(id) + `.addEventListener('click', function(event) {
+            fetch('/orders/` + strconv.Itoa(id) + `', {
+                method: 'POST',
+            }).then(response=>{
+				if (response.ok){
+					window.location.reload();
+				}
+			})
+        });
+    </script>
+    `
+}

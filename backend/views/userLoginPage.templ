@@ -1,0 +1,65 @@
+package views
+
+templ UserLoginPage() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>PROJEKT JUICE</title>
+			<link rel="stylesheet" href="style.css"/>
+			<script src="https://cdn.tailwindcss.com"></script>
+		</head>
+		<body class="w-full h-full bg-[url('images/image.png')] bg-center bg-fixed">
+			<div id="root" class="min-h-screen flex items-center justify-center">
+				<div class="mb-24 p-12 bg-black bg-opacity-35 rounded-lg">
+					<h1 class="text-6xl font-semibold mb-4 leading-normal text-white step-title">SECRET CODE</h1>
+					<form
+						id="form-login"
+						class="flex flex-col m-auto gap-4 items-center justify-center"
+					>
+						<input
+							type="text"
+							name="password"
+							autofocus
+							class="font-light border-4 p-2 text-2xl
+                 bg-transparent text-white outline-none focus:border-purple-950"
+						/>
+						<input
+							type="submit"
+							class="bg-purple-950 rounded-3xl py-3 px-8 font-medium 
+                    hover:bg-transparent hover:border-purple-950 m-auto text-white hover:cursor-pointer
+                      hover:text-white duration-300 hover:border border-2 border-white"
+						/>
+					</form>
+					<script>
+						const loginForm = document.getElementById("form-login");
+						loginForm.addEventListener("submit", async (e) => {
+							console.log("fetching pswd");
+							e.preventDefault();
+							const formData = new FormData(loginForm);
+							try {
+								const response = await fetch('/auth/login', {
+									method: 'POST',
+									headers: {
+										'Content-Type': 'application/json',
+									},
+									body: JSON.stringify({ 
+										password: formData.get("password") 
+									}),
+								});
+								if (!response.ok) {
+									throw new Error(`HTTP error! status: ${response.status}`);
+								}
+								window.location.href="/"
+							} catch (error) {
+								console.error("Error:", error);
+								window.location.reload()
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</body>
+	</html>
+}

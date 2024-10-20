@@ -1,0 +1,85 @@
+package components
+
+import (
+	"github.com/pecet3/my-api/data"
+	"strconv"
+)
+
+templ ProductsDisplay(products []data.Product) {
+	<table class="w-full border-collapse">
+		<thead>
+			<tr>
+				<th class="border border-black">ID</th>
+				<th class="border border-black">Image</th>
+				<th class="border border-black">Name</th>
+				<th class="border border-black">Description</th>
+				<th class="border border-black">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, p := range products {
+				<tr>
+					<form
+						id={ "form-" + strconv.Itoa(p.Id) }
+						enctype="multipart/form-data"
+					>
+						<td class="border border-black">
+							<input type="hidden" name="id" value={ strconv.Itoa(p.Id) }/>
+							{ strconv.Itoa(p.Id) }
+						</td>
+						<td class="border border-black">
+							<img src={ p.ImageURL } alt="photo artykulu" class="w-20 h-20"/>
+							<input type="file" name="image" accept="image/*"/>
+						</td>
+						<td class="border border-black">
+							<input type="text" name="name" value={ p.Name }/>
+						</td>
+						<td class="border border-black">
+							<textarea name="description">{ p.Description }</textarea>
+						</td>
+						<td class="border border-black">
+							<button type="submit">Update</button>
+						</td>
+					</form>
+					<td class="border border-black">
+						<button id={ "deleteBtn-" + strconv.Itoa(p.Id) }>
+							X
+						</button>
+					</td>
+				</tr>
+				@templ.Raw(generateScript(p.Id))
+			}
+		</tbody>
+	</table>
+}
+
+func generateScript(id int) string {
+	return `
+    <script>
+        const form` + strconv.Itoa(id) + ` = document.getElementById('form-` + strconv.Itoa(id) + `');
+        form` + strconv.Itoa(id) + `.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form` + strconv.Itoa(id) + `);
+
+            fetch('/products/` + strconv.Itoa(id) + `', {
+                method: 'PUT',
+                body: formData
+            }).then(response=>{
+				if (response.ok){
+					window.location.reload();
+				}
+			})
+        });
+		 const deleteBtn` + strconv.Itoa(id) + ` = document.getElementById('deleteBtn-` + strconv.Itoa(id) + `');
+		 deleteBtn` + strconv.Itoa(id) + `.addEventListener('click', function(event) {
+            fetch('/products/` + strconv.Itoa(id) + `', {
+                method: 'DELETE',
+            }).then(response=>{
+				if (response.ok){
+					window.location.reload();
+				}
+			})
+        });
+    </script>
+    `
+}

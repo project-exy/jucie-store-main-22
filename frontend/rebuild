@@ -1,0 +1,1 @@
+rm -rf  ../backend/static/dist && cp -r dist/ ../backend/static/dist/ rebuld

@@ -18,19 +18,20 @@ type Category struct {
 	Name string `json:"name"`
 }
 
-func (c *Category) GetById(db *sql.DB, id int) (string, error) {
-	query := "SELECT name FROM categories WHERE id = ?"
+func (c *Category) GetById(db *sql.DB, id int) (*Category, error) {
+	query := "SELECT name, id FROM categories WHERE id = ?"
 	row := db.QueryRow(query, id)
 
 	var name string
-	if err := row.Scan(&name); err != nil {
+	var idDb int
+	if err := row.Scan(&name, &idDb); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return "", errors.New("category not found")
+			return nil, errors.New("category not found")
 		}
-		return "", err
+		return nil, err
 	}
 
-	return name, nil
+	return c, nil
 }
 
 func (c Category) Add(db *sql.DB, name string) error {
@@ -42,22 +43,23 @@ func (c Category) Add(db *sql.DB, name string) error {
 	return nil
 }
 
-func (c Category) GetAll(db *sql.DB) ([]Category, error) {
-	query := "select name from categories"
+func (c Category) GetAll(db *sql.DB) ([]*Category, error) {
+	query := "select name, id from categories"
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
-	var categories []Category
+	var categories []*Category
 	for rows.Next() {
 		var category Category
 		err := rows.Scan(
 			&category.Name,
+			&category.Id,
 		)
 		if err != nil {
 			return nil, err
 		}
-		categories = append(categories, category)
+		categories = append(categories, &category)
 	}
 	if err = rows.Err(); err != nil {
 		return nil, err

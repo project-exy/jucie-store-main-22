@@ -75,6 +75,40 @@ func (p Product) GetById(db *sql.DB, id int) (*Product, error) {
 	return &product, nil
 }
 
+func (p Product) GetAllByCategoryId(db *sql.DB, id int) ([]*Product, error) {
+	query := `
+	SELECT p.id, p.name, p.description, p.image_url, c.name AS category
+	FROM products p
+	JOIN categories c ON p.category_id = c.id WHERE category_id = ?
+`
+	rows, err := db.Query(query, id)
+	if err != nil {
+		return nil, fmt.Errorf("error querying products: %v", err)
+	}
+	defer rows.Close()
+
+	var products []*Product
+	for rows.Next() {
+		var product Product
+		err := rows.Scan(
+			&product.Id,
+			&product.Name,
+			&product.Description,
+			&product.ImageURL,
+			&product.Category,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error scanning product row: %v", err)
+		}
+		products = append(products, &product)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating product rows: %v", err)
+	}
+	return products, nil
+}
+
 func (p *Product) Add(db *sql.DB, name, description, imageURL string, catId int) (int, error) {
 	query := "INSERT INTO products (name, description, image_url, category_id) VALUES (?, ?, ?,?)"
 	result, err := db.Exec(query, name, description, imageURL, catId)

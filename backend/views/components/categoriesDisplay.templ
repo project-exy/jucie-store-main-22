@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-templ CategoriesDisplay(categories []data.Category) {
+templ CategoriesDisplay(categories []*data.Category) {
 	<form action="/categories" method="POST">
 		<input type="text" name="name" placeholder="Nazwa kategorii" required/>
 		<button type="submit">Add</button>
@@ -38,10 +38,10 @@ templ CategoriesDisplay(categories []data.Category) {
 func generateDelete(id int) string {
 	return `
     <script>
-        const formCategory = document.getElementById('formCategory-` + strconv.Itoa(id) + `');
-        formCategory.addEventListener('submit', function(event) {
+	
+      const formCategory` + strconv.Itoa(id)  +` = document.getElementById('formCategory-` + strconv.Itoa(id) + `');
+        formCategory` + strconv.Itoa(id)  +`.addEventListener('submit', function(event) {
             event.preventDefault();
-            const formData = new FormData(form);
 
             fetch('/categories/` + strconv.Itoa(id) + `', {
                 method: 'DELETE',

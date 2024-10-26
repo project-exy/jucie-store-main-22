@@ -49,6 +49,7 @@ func main() {
 	}
 	log.Printf("Server is listening on: [%s]", address)
 	log.Fatal(server.ListenAndServe())
+
 }
 
 func loadEnv() {

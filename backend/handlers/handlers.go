@@ -27,6 +27,7 @@ func Run(mux *http.ServeMux, v *validator.Validate, d data.Data, ss *auth.Sessio
 	mux.HandleFunc("GET /api/prices", h.handlePrices)
 	mux.HandleFunc("POST /api/orders", h.handleOrders)
 }
+
 func (h handlers) handleProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := h.data.Product.GetAll(h.data.Db)
 	if err != nil {

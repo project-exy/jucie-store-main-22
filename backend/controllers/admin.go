@@ -57,11 +57,27 @@ func (c controllers) categoriesController(w http.ResponseWriter, r *http.Request
 
 		return
 	}
+	if r.Method == http.MethodPost {
+		name := r.FormValue("name")
+		if name == "" {
+			http.Error(w, "", http.StatusBadRequest)
+			return
+		}
+		err := c.data.Category.Add(c.data.Db, name)
+		if err != nil {
+			http.Error(w, "", http.StatusBadRequest)
+			return
+		}
+		http.Redirect(w, r, "/panel", http.StatusSeeOther)
+
+		return
+	}
 }
 
 func (c controllers) categoryController(w http.ResponseWriter, r *http.Request) {
 	log.Println(1)
 	if r.Method == "DELETE" {
+
 		id := r.PathValue("id")
 		if id == "" {
 			http.Error(w, "", http.StatusBadRequest)

@@ -96,7 +96,6 @@ func (pr Price) GetAll(db *sql.DB) ([]Price, error) {
 }
 
 func insertPrices(db *sql.DB) error {
-
 	rows, err := db.Query("SELECT id, capacity, price FROM prices")
 	if err != nil {
 		return nil

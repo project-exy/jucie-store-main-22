@@ -104,7 +104,8 @@ func (c controllers) productsController(w http.ResponseWriter, r *http.Request) 
 		Description: description,
 		ImageURL:    path,
 	}
-	_, err = product.Add(c.data.Db, name, description, path)
+	catId := 1
+	_, err = product.Add(c.data.Db, name, description, path, catId)
 	if err != nil {
 		http.Error(w, "Failed to add product", http.StatusInternalServerError)
 		return
@@ -135,7 +136,8 @@ func (c controllers) productController(w http.ResponseWriter, r *http.Request) {
 			Description: description,
 			ImageURL:    path,
 		}
-		_, err = product.Add(c.data.Db, name, description, path)
+		catId := 1
+		_, err = product.Add(c.data.Db, name, description, path, catId)
 		if err != nil {
 			http.Error(w, "Failed to add product", http.StatusInternalServerError)
 			return

@@ -11,7 +11,9 @@ create table if not exists products (
 	id integer primary key autoincrement,
 	name text not null,
 	description text not null,
-	image_url text default ''
+	image_url text default '',
+	category_id integer not null,
+	foreign key (category_id) references categories(id) 
 );
 `
 
@@ -20,12 +22,15 @@ type Product struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	ImageURL    string `json:"image_url"`
+	CategoryId  int    `json:"-"`
+	Category    string `json:"category"`
 }
 
 func (p Product) GetAll(db *sql.DB) ([]Product, error) {
 	query := `
-        SELECT id, name, description, image_url
-        FROM products
+        SELECT p.id, p.name, p.description, p.image_url, c.name AS category
+        FROM products p
+        JOIN categories c ON p.category_id = c.id
     `
 	rows, err := db.Query(query)
 	if err != nil {
@@ -41,6 +46,7 @@ func (p Product) GetAll(db *sql.DB) ([]Product, error) {
 			&product.Name,
 			&product.Description,
 			&product.ImageURL,
+			&product.Category,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning product row: %v", err)
@@ -54,7 +60,6 @@ func (p Product) GetAll(db *sql.DB) ([]Product, error) {
 
 	return products, nil
 }
-
 func (p Product) GetById(db *sql.DB, id int) (*Product, error) {
 	query := "SELECT id, name, description, image_url FROM products WHERE id = ?"
 	row := db.QueryRow(query, id)
@@ -70,9 +75,9 @@ func (p Product) GetById(db *sql.DB, id int) (*Product, error) {
 	return &product, nil
 }
 
-func (p Product) Add(db *sql.DB, name, description, imageURL string) (int, error) {
-	query := "INSERT INTO products (name, description, image_url) VALUES (?, ?, ?)"
-	result, err := db.Exec(query, name, description, imageURL)
+func (p *Product) Add(db *sql.DB, name, description, imageURL string, catId int) (int, error) {
+	query := "INSERT INTO products (name, description, image_url, category_id) VALUES (?, ?, ?,?)"
+	result, err := db.Exec(query, name, description, imageURL, catId)
 	if err != nil {
 		log.Println(err)
 		return -1, err

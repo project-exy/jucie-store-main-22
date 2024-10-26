@@ -2,6 +2,9 @@ package data
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
+	"log"
 )
 
 const CategoriesTable = `
@@ -13,6 +16,21 @@ create table if not exists categories(
 type Category struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
+}
+
+func (c *Category) GetById(db *sql.DB, id int) (string, error) {
+	query := "SELECT name FROM categories WHERE id = ?"
+	row := db.QueryRow(query, id)
+
+	var name string
+	if err := row.Scan(&name); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", errors.New("category not found")
+		}
+		return "", err
+	}
+
+	return name, nil
 }
 
 func (c Category) Add(db *sql.DB, name string) error {
@@ -53,5 +71,24 @@ func (c Category) Delete(db *sql.DB, id int) error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func insertCategories(db *sql.DB) error {
+
+	pricesSQL := `
+    INSERT INTO categories (name) VALUES
+    (ultimate),
+    (less creations),
+    (hidden potion),
+	(others)
+    `
+
+	_, err := db.Exec(pricesSQL)
+	if err != nil {
+		return fmt.Errorf("failed to insert prices: %v", err)
+	}
+	log.Println("<DB> Prices have been inserted successfully")
+
 	return nil
 }

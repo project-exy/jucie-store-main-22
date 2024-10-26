@@ -32,6 +32,7 @@ func newDb() *sql.DB {
 		}
 	}
 	insertPrices(db)
+	insertCategories(db)
 
 	log.Println("<DB> Preparing DB has been finished")
 	return db

@@ -75,20 +75,42 @@ func (c Category) Delete(db *sql.DB, id int) error {
 }
 
 func insertCategories(db *sql.DB) error {
+	rows, err := db.Query("SELECT * FROM categories")
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
 
+	var categories []Category
+	for rows.Next() {
+		var p Category
+		err := rows.Scan(&p.Id, &p.Name)
+		if err != nil {
+			return nil
+		}
+		categories = append(categories, p)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil
+	}
+	if len(categories) > 0 {
+		return nil
+	}
+	log.Println("<DB> Inserting categories")
 	pricesSQL := `
     INSERT INTO categories (name) VALUES
-    (ultimate),
-    (less creations),
-    (hidden potion),
-	(others)
+    ('ultimate'),
+    ('less creations'),
+    ('hidden potion'),
+	('others')
     `
 
-	_, err := db.Exec(pricesSQL)
+	_, err = db.Exec(pricesSQL)
 	if err != nil {
-		return fmt.Errorf("failed to insert prices: %v", err)
+		log.Println(err)
+		return fmt.Errorf("failed to insert: %v", err)
 	}
-	log.Println("<DB> Prices have been inserted successfully")
 
 	return nil
 }

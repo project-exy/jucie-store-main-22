@@ -9,7 +9,7 @@ export const ProductTile = ({ product }: { product: Product }) => {
       <h4 className="font-semibold capitalize text-3xl step-title text-white">
         {product.name}
       </h4>
-      <img src={`${product.image_url}`} className="w-72 h-72 object-contain" />
+      <img src={`${product.image_url}`} className="w-48 h-48 object-contain" />
       <Link
         to={`/juices/${product.id}`}
         className="text-white rounded-3xl py-2 px-8 border-4

@@ -24,6 +24,11 @@ func main() {
 	log.Println("Running the server...")
 	loadEnv()
 	mux := http.NewServeMux()
+
+	// Serve static files from the 'public' directory
+	fs := http.FileServer(http.Dir("./static/uploads")) // Adjust the directory to where your images are stored
+	mux.Handle("/images/", http.StripPrefix("/images/", fs))
+
 	data := data.New()
 	app := App{
 		sessions:  auth.NewSessionStore(data),
@@ -36,7 +41,8 @@ func main() {
 	auth.Run(mux, app.sessions, app.data)
 	controllers.Run(mux, app.data, app.storage, app.sessions)
 	handlers.Run(mux, app.validator, app.data, app.sessions)
-	address := "0.0.0.0:5000"
+
+	address := "0.0.0.0:5000" // or 5000, whichever you prefer
 	server := &http.Server{
 		Addr:    address,
 		Handler: mux,

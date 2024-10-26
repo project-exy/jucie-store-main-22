@@ -73,11 +73,9 @@ export const OrderForm: React.FC = () => {
   };
 
   useEffect(() => {
-    // Zablokuj przewijanie po zamontowaniu komponentu
     document.body.style.overflow = "hidden";
-    document.body.style.height = "100vh"; // Zabezpieczenie przed rozszerzaniem body
+    document.body.style.height = "100vh";
 
-    // Przywróć możliwość przewijania po odmontowaniu komponentu
     return () => {
       document.body.style.overflow = "auto";
       document.body.style.height = "auto";
@@ -85,13 +83,15 @@ export const OrderForm: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center px-4 relative mt-8"> {/* -mt-16 przesuwa formularz w górę */}
-      <div className="w-full max-w-lg bg-black bg-opacity-50 rounded-lg shadow-2xl p-6 border-4 border-black">
-        <div className="w-full rounded-lg shadow-lg p-6 border-2 border-white">
-          <h2 className="text-2xl font-bold mb-6 text-white step-title">Order Form</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="flex justify-center items-center min-h-screen px-2 -mt-40">
+      <div className="w-full max-w-sm bg-black bg-opacity-50 rounded-md shadow-lg p-2 border-4 border-black">
+        <div className="w-full rounded-md shadow-md p-2 border-4 border-white">
+          <h2 className="mb-2 mt-2 text-white step-title text-3xl">Order Form</h2>
+          <form onSubmit={handleSubmit} className="space-y-2">
             <div>
-              <label htmlFor="fullName" className="block text-white font-semibold mb-1">Full Name</label>
+              <label htmlFor="fullName" className="block text-white text-xs font-medium mb-1">
+                Full Name
+              </label>
               <input
                 type="text"
                 id="fullName"
@@ -99,13 +99,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.fullName}
                 onChange={handleInputChange}
                 placeholder="Your Full Name"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-white font-semibold mb-1">Email</label>
+              <label htmlFor="email" className="block text-white text-xs font-medium mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -113,13 +115,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Your Email"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="phoneNumber" className="block text-white font-semibold mb-1">Phone Number</label>
+              <label htmlFor="phoneNumber" className="block text-white text-xs font-medium mb-1">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -127,13 +131,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 placeholder="Your Phone Number"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="paczkomatId" className="block text-white font-semibold mb-1">Paczkomat ID</label>
+              <label htmlFor="paczkomatId" className="block text-white text-xs font-medium mb-1">
+                Paczkomat ID
+              </label>
               <input
                 type="text"
                 id="paczkomatId"
@@ -141,13 +147,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.paczkomatId}
                 onChange={handleInputChange}
                 placeholder="Paczkomat ID"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="blikCode" className="block text-white font-semibold mb-1">BLIK Code</label>
+              <label htmlFor="blikCode" className="block text-white text-xs font-medium mb-1">
+                BLIK Code
+              </label>
               <input
                 type="text"
                 id="blikCode"
@@ -155,13 +163,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.blikCode}
                 onChange={handleInputChange}
                 placeholder="BLIK Code"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="blikPassword" className="block text-white font-semibold mb-1">BLIK Password</label>
+              <label htmlFor="blikPassword" className="block text-white text-xs font-medium mb-1">
+                BLIK Password
+              </label>
               <input
                 type="password"
                 id="blikPassword"
@@ -169,16 +179,15 @@ export const OrderForm: React.FC = () => {
                 value={formData.blikPassword}
                 onChange={handleInputChange}
                 placeholder="BLIK Password"
-                className="w-full px-4 py-2 border-2 border-white rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-950"
+                className="w-full px-2 py-1 border border-white rounded focus:outline-none focus:ring-2 focus:ring-purple-800 text-xs"
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full rounded-3xl py-3 px-8 font-medium inline-block 
-                mr-4 hover:bg-transparent hover:border-white hover:text-white duration-300 
-                hover:border-4 border-4 border-purple-950 step-title"
+              className="rounded-3xl py-2 md:py-2 px-4 sm:px-6 md:px-8 font-medium inline-block text-white 
+                hover:bg-transparent hover:border-white hover:text-white duration-300 hover:border-4 border-4 border-purple-950 step-title"
             >
               Place Order
             </button>

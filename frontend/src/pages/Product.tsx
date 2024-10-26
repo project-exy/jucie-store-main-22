@@ -33,11 +33,9 @@ export const Product = () => {
   };
 
   useEffect(() => {
-    // Zablokuj przewijanie po zamontowaniu komponentu
     document.body.style.overflow = "hidden";
-    document.body.style.height = "100vh"; // Zabezpieczenie przed rozszerzaniem body
+    document.body.style.height = "100vh";
 
-    // Przywróć możliwość przewijania po odmontowaniu komponentu
     return () => {
       document.body.style.overflow = "auto";
       document.body.style.height = "auto";
@@ -49,40 +47,38 @@ export const Product = () => {
   }, [basket]);
 
   return (
-    <div className="flex items-center justify-center relative">
-      {" "}
-      {/* h-screen zapewnia pełną wysokość okna */}
-      <div className="w-full max-w-4xl relative mb-28">
-        <div className="absolute -top-20 w-full flex justify-center z-20">
-          <h4 className="font-semibold capitalize text-6xl step-title text-white px-6">
+    <div className="flex items-center justify-center relative h-full p-2 sm:p-4">
+      <div className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl relative -mt-6">
+        <div className="absolute -top-12 sm:-top-20 w-full flex justify-center z-20">
+          <h4 className="font-semibold capitalize text-3xl sm:text-4xl md:text-5xl step-title text-white px-4 mt-4 sm:mt-6">
             {product?.name}
           </h4>
         </div>
-        <div className="relative bg-black bg-opacity-50 p-4 rounded-lg shadow-xl">
-          <div className="border-8 border-black rounded-lg flex items-center justify-between p-6">
+        <div className="relative bg-black bg-opacity-50 p-3 sm:p-4 rounded-lg shadow-xl border-4 sm:border-4 border-black">
+          <div className="border-4 sm:border-4 border-white rounded-lg flex flex-col sm:flex-row items-center justify-between p-3 sm:p-6">
             <div className="grid grid-cols-1">
               <img
                 src={product?.image_url}
-                className="w-72 h-72 object-contain"
+                className="w-32 h-32 sm:w-72 sm:h-72 object-contain mx-auto"
                 alt={product?.name}
               />
-              <div className="text-center text-2xl step-title mt-4">
+              <div className="text-center text-lg sm:text-2xl step-title mt-3">
                 {price} PLN
               </div>
             </div>
-            <div className="flex flex-col justify-center flex-grow">
-              <p className="text-lg text-white mb-4 text-left max-w-xs">
-                <span className="text-purple-950 text-2xl font-bold">
+            <div className="flex flex-col justify-center flex-grow mt-4 sm:mt-0 sm:ml-4">
+              <p className="text-base sm:text-lg text-white mb-2 sm:mb-4 text-left max-w-xs">
+                <span className="text-purple-950 text-lg sm:text-2xl font-bold">
                   {product?.name}
                 </span>
                 {product?.description}
               </p>
-              <div className="flex flex-col space-y-4">
-                <div className="flex space-x-4 items-center">
-                  <div>
+              <div className="flex flex-col space-y-2 sm:space-y-4">
+                <div className="flex flex-col sm:flex-row sm:space-x-4 items-center">
+                  <div className="w-full sm:w-auto mb-2 sm:mb-0">
                     <select
                       id="strength"
-                      className="border-solid bg-black border-black border-4 px-5 py-2 rounded cursor-pointer font-bold w-[200px] bg-transparent"
+                      className="border-solid bg-black border-black border-2 sm:border-4 px-4 py-2 sm:px-6 sm:py-3 rounded cursor-pointer font-bold w-full sm:w-[160px] bg-transparent"
                       value={strength}
                       onChange={(e) => setStrength(e.target.value)}
                     >
@@ -100,10 +96,10 @@ export const Product = () => {
                       </option>
                     </select>
                   </div>
-                  <div>
+                  <div className="w-full sm:w-auto">
                     <select
                       id="capacity"
-                      className="border-solid bg-black border-black border-4 px-5 py-2 rounded cursor-pointer font-bold w-[200px] bg-transparent"
+                      className="border-solid bg-black border-black border-2 sm:border-4 px-4 py-2 sm:px-6 sm:py-3 rounded cursor-pointer font-bold w-full sm:w-[160px] bg-transparent"
                       value={price}
                       onChange={(e) => setPrice(e.target?.value)}
                     >
@@ -116,38 +112,38 @@ export const Product = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 sm:space-x-4 mt-4 sm:mt-6 justify-center">
                   <div className="flex gap-2">
-                    <div className="flex gap-2 rounded-2xl py-2 px-2 ml-24">
-                      <button
-                        onClick={() =>
-                          quantity > 0 && setQuantity((prev) => prev + 1)
-                        }
-                        className="border-4 border-purple-950 rounded-2xl py-1 px-3 text-2xl
-                                                hover:bg-transparent hover:border-white
-                                                hover:text-white duration-300 flex items-center justify-center text-white"
-                      >
-                        +
-                      </button>
-                      <span className="font-mono text-4xl">{quantity}</span>
+                    <div className="flex gap-2 rounded-2xl py-2 px-2">
                       <button
                         onClick={() =>
                           quantity > 1 && setQuantity((prev) => prev - 1)
                         }
-                        className="border-4 border-purple-950 rounded-2xl py-1 px-4 text-2xl
-                                                hover:bg-transparent hover:border-white
-                                                hover:text-white duration-300 flex items-center justify-center text-white"
+                        className="border-2 sm:border-4 border-purple-950 rounded-2xl py-1 px-2 sm:px-3 text-lg sm:text-2xl
+                                  hover:bg-transparent hover:border-white
+                                  hover:text-white duration-300 flex items-center justify-center text-white"
                       >
                         -
                       </button>
+                      <span className="font-mono text-2xl sm:text-3xl">{quantity}</span>
+                      <button
+                        onClick={() =>
+                          quantity > 0 && setQuantity((prev) => prev + 1)
+                        }
+                        className="border-2 sm:border-4 border-purple-950 rounded-2xl py-1 px-2 sm:px-3 text-lg sm:text-2xl
+                                  hover:bg-transparent hover:border-white
+                                  hover:text-white duration-300 flex items-center justify-center text-white"
+                      >
+                        +
+                      </button>
                     </div>
                     <button
-                      className="border-4 border-purple-950 rounded-2xl py-2 px-4 
-                                            hover:bg-transparent hover:border-white
-                                            hover:text-white duration-300 flex items-center justify-center"
+                      className="border-2 sm:border-4 border-purple-950 rounded-2xl py-2 px-3 sm:px-4 
+                                  hover:bg-transparent hover:border-white
+                                  hover:text-white duration-300 flex items-center justify-center"
                       onClick={handleButtonClick}
                     >
-                      <FaShoppingBasket size={36} />
+                      <FaShoppingBasket className="text-2xl sm:text-3xl" />
                     </button>
                   </div>
                 </div>

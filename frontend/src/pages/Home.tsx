@@ -1,27 +1,35 @@
+import { useEffect } from "react";
 import { MainWrapper } from "../components/MainWrapper";
 import { Link } from "react-router-dom";
 
 export const Home = () => {
+  useEffect(() => {
+    // Zablokowanie przewijania
+    document.body.style.overflow = "hidden";
+    
+    // Przywrócenie przewijania po odmontowaniu komponentu
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <MainWrapper>
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <div className="mt-0 md:mt-10 mb-80 text-center"> {/* Dodano text-center tutaj */}
-          {/* Nagłówek - responsywna wielkość czcionki */}
-          <div className="text-5xl sm:text-6xl md:text-8xl font-bold leading-tight text-white step-title">
-            PROJEKT JUICE
+        <div className="mt-0 md:mt-10 mb-80 text-center">
+          <div className="text-5xl text-7xl md:text-8xl font-bold leading-tight text-white step-title">
+            PROJECT JUICE
           </div>
-
-          {/* Podtytuł - responsywna wielkość czcionki */}
-          <span className="font-semibold text-purple-950 text-4xl sm:text-5xl md:text-6xl block gradient-text pacifico-regular mt-2">
+          <span className="font-semibold text-purple-950 text-4xl md:text-4xl block gradient-text step-title mt-2">
             Level Up Your Vaping
           </span>
-
-          {/* Akapit - responsywna wielkość czcionki */}
-          <p className="text-lg sm:text-xl md:text-2xl text-white font-semibold mt-2 pacifico-regular max-w-xs sm:max-w-md md:max-w-lg mx-auto">
-            At Projekt Juice, we specialize in crafting premium vape oils using top-quality flavors from the most renowned brands.
+          <p className="text-lg sm:text-xl md:text-xl text-white font-semibold mt-2 step-title max-w-xs sm:max-w-md md:max-w-lg mx-auto">
+            premium vape oils,
+          </p>
+          <p className="text-lg sm:text-xl md:text-xl text-white font-semibold mt-2 step-title max-w-xs sm:max-w-md md:max-w-lg mx-auto">
+            top-quality flavors
           </p>
 
-          {/* Link do produktów - responsywny padding i margines */}
           <div className="mt-4 text-white">
             <Link
               to="/ProductsTypes"

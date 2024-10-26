@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:Help Me, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif,;
   line-height: 1.5;
   font-weight: 400;
   background-image: url("./assets/background.jpg");
@@ -32,8 +32,9 @@ html, body {
 
 @font-face {
   font-family: 'Help Me';
-  src: url('/static/fonts/HelpMe.ttf') format('truetype'); /* Updated path */
+  src: url('/static/fonts/HelpMe.ttf') format('truetype');
 }
+
 
 .step-title {
   font-family: 'Help Me', sans-serif;

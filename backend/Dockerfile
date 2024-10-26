@@ -8,8 +8,6 @@ RUN go mod download
 
 RUN CGO_ENABLED=1 GOOS=linux go build -o main .
 
-COPY --from=builder /app/ .
-
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
@@ -19,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
+COPY --from=builder /app/main /main
 
 COPY . ./main
 

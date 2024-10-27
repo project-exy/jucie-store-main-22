@@ -1,6 +1,9 @@
 package components
 
-templ AddProductForm() {
+import "github.com/pecet3/my-api/data"
+import "strconv"
+
+templ AddProductForm(categories []*data.Category) {
 	<div class=" flex-col flex justify-center items-center m-auto gap-1">
 		<form
 			id="productForm"
@@ -13,6 +16,11 @@ templ AddProductForm() {
 			<input type="text" id="name" name="name" rows="2" required/>
 			<label for="description">Description:</label>
 			<textarea id="description" name="description" rows="4" cols="50" required></textarea>
+            <select id="category" name="category">
+             for _,cat:= range categories{
+            <option  value={strconv.Itoa(cat.Id)}>{cat.Name}</option>   
+            }
+            </select>
 			<label for="image">Image:</label>
 			<input type="file" id="image" name="image" accept="image/*" required/>
 			<input type="submit" value="Submit Product" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"/>
@@ -26,7 +34,7 @@ templ AddProductForm() {
         
         fetch('/products', {
             method: 'POST',
-            body: JSON.stringify(formData)
+            body: formData
         })
         .then(response => {
             if (response.ok) {

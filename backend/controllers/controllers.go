@@ -35,7 +35,7 @@ func Run(mux *http.ServeMux, d data.Data, s storage.StorageServices, ss *auth.Se
 
 	mux.HandleFunc("GET /login-admin", c.loginAdminController)
 	mux.HandleFunc("GET /login", c.userLoginController)
-	// mux.Handle("/", ss.AuthorizeAuth(c.serveReact))
-	mux.HandleFunc("/", c.serveReact)
+	mux.Handle("/", ss.AuthorizeAuth(c.serveReact))
+	// mux.HandleFunc("/", c.serveReact)
 
 }

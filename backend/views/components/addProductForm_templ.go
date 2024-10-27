@@ -8,7 +8,10 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func AddProductForm() templ.Component {
+import "github.com/pecet3/my-api/data"
+import "strconv"
+
+func AddProductForm(categories []*data.Category) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +32,43 @@ func AddProductForm() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\" flex-col flex justify-center items-center m-auto gap-1\"><form id=\"productForm\" action=\"/products\" method=\"POST\" enctype=\"multipart/form-data\" class=\"flex flex-col justify-center items-center gap-2 border border-black\"><label for=\"name\">Name:</label> <input type=\"text\" id=\"name\" name=\"name\" rows=\"2\" required> <label for=\"description\">Description:</label> <textarea id=\"description\" name=\"description\" rows=\"4\" cols=\"50\" required></textarea> <label for=\"image\">Image:</label> <input type=\"file\" id=\"image\" name=\"image\" accept=\"image/*\" required> <input type=\"submit\" value=\"Submit Product\" class=\"px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline\"></form></div><script type=\"text/javascript\">\n    document.getElementById('productForm').addEventListener('submit', function(e) {\n        e.preventDefault();\n        \n        var formData = new FormData(this);\n        \n        fetch('/products', {\n            method: 'POST',\n            body: JSON.stringify(formData)\n        })\n        .then(response => {\n            if (response.ok) {\n                alert('Product added successfully');\n                window.location.href = '/panel';\n            } else {\n                throw new Error('Product submission failed');\n            }\n        })\n        .catch(error => {\n            console.error('Error:', error);\n            alert('Error adding product');\n        });\n    });\n</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\" flex-col flex justify-center items-center m-auto gap-1\"><form id=\"productForm\" action=\"/products\" method=\"POST\" enctype=\"multipart/form-data\" class=\"flex flex-col justify-center items-center gap-2 border border-black\"><label for=\"name\">Name:</label> <input type=\"text\" id=\"name\" name=\"name\" rows=\"2\" required> <label for=\"description\">Description:</label> <textarea id=\"description\" name=\"description\" rows=\"4\" cols=\"50\" required></textarea> <select id=\"category\" name=\"category\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, cat := range categories {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(cat.Id))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/addProductForm.templ`, Line: 21, Col: 48}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(cat.Name)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/components/addProductForm.templ`, Line: 21, Col: 59}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select> <label for=\"image\">Image:</label> <input type=\"file\" id=\"image\" name=\"image\" accept=\"image/*\" required> <input type=\"submit\" value=\"Submit Product\" class=\"px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline\"></form></div><script type=\"text/javascript\">\n    document.getElementById('productForm').addEventListener('submit', function(e) {\n        e.preventDefault();\n        \n        var formData = new FormData(this);\n        \n        fetch('/products', {\n            method: 'POST',\n            body: formData\n        })\n        .then(response => {\n            if (response.ok) {\n                alert('Product added successfully');\n                window.location.href = '/panel';\n            } else {\n                throw new Error('Product submission failed');\n            }\n        })\n        .catch(error => {\n            console.error('Error:', error);\n            alert('Error adding product');\n        });\n    });\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

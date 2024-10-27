@@ -110,7 +110,7 @@ func (p Product) GetAllByCategoryId(db *sql.DB, id int) ([]*Product, error) {
 }
 
 func (p *Product) Add(db *sql.DB, name, description, imageURL string, catId int) (int, error) {
-	query := "INSERT INTO products (name, description, image_url, category_id) VALUES (?, ?, ?,?)"
+	query := "INSERT INTO products (name, description, image_url, category_id) VALUES (?, ?, ?, ?, ?)"
 	result, err := db.Exec(query, name, description, imageURL, catId)
 	if err != nil {
 		log.Println(err)

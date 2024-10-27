@@ -109,6 +109,14 @@ func (c controllers) productsController(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, "Error retrieving file", http.StatusBadRequest)
 		return
 	}
+	categoryId := r.FormValue("category")
+	catId, err := strconv.Atoi(categoryId)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Error retrieving file", http.StatusBadRequest)
+		return
+	}
+
 	path, err := c.storage.AddImage(file, header)
 	if err != nil {
 		log.Println(err)
@@ -120,7 +128,6 @@ func (c controllers) productsController(w http.ResponseWriter, r *http.Request) 
 		Description: description,
 		ImageURL:    path,
 	}
-	catId := 1
 	_, err = product.Add(c.data.Db, name, description, path, catId)
 	if err != nil {
 		http.Error(w, "Failed to add product", http.StatusInternalServerError)

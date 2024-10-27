@@ -29,15 +29,16 @@ func Run(mux *http.ServeMux, v *validator.Validate, d data.Data, ss *auth.Sessio
 }
 
 func (h handlers) handleProducts(w http.ResponseWriter, r *http.Request) {
-	products, err := h.data.Product.GetAll(h.data.Db)
+	var dto data.ProductsResponseDTO
+	response, err := dto.ToDTO(h.data)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "", http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application-json")
-	w.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(w).Encode(products)
+
+	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "", http.StatusInternalServerError)

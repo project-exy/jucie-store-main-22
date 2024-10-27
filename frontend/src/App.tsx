@@ -16,7 +16,7 @@ import { ProductsTypes } from './pages/ProductsTypes';
 
 
 function App() {
-  const { addProducts, addPrices, setIsLoading } = useStoreContext();
+  const { addProducts, addPrices, setIsLoading, products } = useStoreContext();
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -44,9 +44,8 @@ function App() {
         setIsLoading(false);
       
     };
-
-    fetchData();
-  }, [addProducts, addPrices, setIsLoading]);
+    if (products) fetchData();
+  }, []);
 
   return (
     <>
